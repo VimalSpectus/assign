@@ -109,8 +109,8 @@ const DataShow = () => {
                
                     <TableRow>
                         <TableCell align="center">{dataNew.current.temperature}</TableCell>
-                        <TableCell align="center">{dataNew.current.wind_speed}</TableCell>
                         <TableCell align="center"><img src={dataNew.current.weather_icons}/></TableCell>
+                        <TableCell align="center">{dataNew.current.wind_speed} kph</TableCell>
                         <TableCell align="center">{dataNew.current.precip}</TableCell>
                     </TableRow>
               
