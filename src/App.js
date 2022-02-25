@@ -1,8 +1,8 @@
 import './App.css';
 import FormInputs from './Components/FormInputs';
-import DataShow from './DataShow';
+import DataShow from './Components/DataShow';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Weather from './Components/Weather';
+// import Weather from './Components/Weather';
 
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
     <Routes >
     <Route path="/" element={<FormInputs/>} />
     <Route path="/datashow" element={<DataShow/>} />
-    <Route path="/weather" element={<Weather/>} />
+    {/* <Route path="/weather" element={<Weather/>} /> */}
     </Routes>
   </Router>
     </div>

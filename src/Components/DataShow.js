@@ -7,19 +7,24 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 const DataShow = () => {
     const [data, setData] = useState();
+    const [dataNew, setDataNew] = useState();
     const { state } = useLocation();
+   
 
     React.useEffect(() => {
         ApiCall();
     }, []);
 
-    const navigate = useNavigate();
-    const handleClick = () => navigate('/weather' , {state : data[0].capital[0]});
+   
+    // const handleClick = () =>( ApiCallWeather(), {state : data[0].capital[0]});
+      const handleClick = () =>{
+        ApiCallWeather();
+      }
 
     const ApiCall = () => {
 
@@ -33,15 +38,35 @@ const DataShow = () => {
             .then(response => response.json())
             .then((result) => {
                 console.log(result);
+
                 setData(result);
                 // console.log(data);
             })
             .catch(error => console.log('error', error));
     }
 
+  //api weather
+    const ApiCallWeather = () => {
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+          };
+          
+          fetch(`http://api.weatherstack.com/current?access_key=12700ec246607b0da6baa1e34ea85377&query=${state}`,
+           requestOptions)
+            .then(response => response.json())
+            .then((result) => {
+                console.log(result);
+                setDataNew(result);
+              
+            })
+            .catch(error => console.log('error', error));
+    }
+
     return (
-        <div>
-        <TableContainer component={Paper}>
+<div>
+<div>
+<TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="spanning table">
                 <TableHead>
                     <TableRow>
@@ -63,9 +88,38 @@ const DataShow = () => {
                 </TableBody>
             </Table>
         </TableContainer>
-     <div><Button onClick={() => {
+        </div>
+      <div>
+     <Button onClick={() => {
           handleClick()
-          }}>Capital Weather</Button> </div>  
+          }}>Capital Weather</Button>
+
+     {dataNew ? (
+         <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell align="center">temp</TableCell>
+                        <TableCell align="center">weather_icon</TableCell>
+                        <TableCell align="center">wind speed</TableCell>
+                        <TableCell align="center">pricip</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+               
+                    <TableRow>
+                        <TableCell align="center">{dataNew.current.temperature}</TableCell>
+                        <TableCell align="center">{dataNew.current.wind_speed}</TableCell>
+                        <TableCell align="center"><img src={dataNew.current.weather_icons}/></TableCell>
+                        <TableCell align="center">{dataNew.current.precip}</TableCell>
+                    </TableRow>
+              
+                </TableBody>
+            </Table>
+        </TableContainer>
+        ):null}
+
+     </div>  
     </div>
     )
 }
